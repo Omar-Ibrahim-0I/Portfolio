@@ -17,15 +17,15 @@ function addRecommendation() {
 
     var messageText = recommendation.value.trim();
     element.innerHTML =
-      "<span>&#8220;</span>" + messageText + "<span>&#8221;</span>";
+      '<div class="recommendation_content">' +
+      '<span class="quote_mark quote_start" aria-hidden="true">&#8220;</span> ' +
+      messageText +
+      ' <span class="quote_mark quote_end" aria-hidden="true">&#8221;</span>' +
+      "</div>";
 
     if (nameInput && nameInput.value && nameInput.value.trim() !== "") {
       var authorTag = document.createElement("div");
-      authorTag.style.textAlign = "right";
-      authorTag.style.fontSize = "14px";
-      authorTag.style.color = "#7600bc";
-      authorTag.style.marginTop = "10px";
-      authorTag.style.fontWeight = "bold";
+      authorTag.className = "recommendation_author";
       authorTag.innerText = "— " + nameInput.value.trim();
       element.appendChild(authorTag);
     }
@@ -49,13 +49,28 @@ function addRecommendation() {
 
 function showPopup(bool) {
   var popup = document.getElementById("popup");
+  var overlay = document.getElementById("popup_overlay");
   if (popup) {
     if (bool) {
       popup.style.visibility = "visible";
       popup.classList.add("show");
+      if (overlay) {
+        overlay.style.visibility = "visible";
+        overlay.classList.add("show");
+      }
+      var closeBtn =
+        popup.querySelector(".popup_close_btn") ||
+        popup.querySelector("button");
+      if (closeBtn) closeBtn.focus();
     } else {
-      popup.style.visibility = "hidden";
       popup.classList.remove("show");
+      if (overlay) overlay.classList.remove("show");
+      setTimeout(function () {
+        if (!popup.classList.contains("show")) {
+          popup.style.visibility = "hidden";
+          if (overlay) overlay.style.visibility = "hidden";
+        }
+      }, 300);
     }
   }
 }
@@ -70,6 +85,30 @@ document.addEventListener("keydown", function (e) {
     showPopup(false);
   }
 });
+
+// Scroll to top button functionality
+function initScrollTop() {
+  const scrollBtn = document.getElementById("scroll_top_btn");
+  if (!scrollBtn) return;
+
+  function toggleScrollBtn() {
+    if (window.scrollY > 280) {
+      scrollBtn.classList.add("visible");
+    } else {
+      scrollBtn.classList.remove("visible");
+    }
+  }
+
+  window.addEventListener("scroll", toggleScrollBtn, { passive: true });
+  toggleScrollBtn();
+
+  scrollBtn.addEventListener("click", function () {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  });
+}
 
 // Navigation menu toggle with accessibility support
 function initNavToggle() {
@@ -152,9 +191,14 @@ function initNavToggle() {
   });
 }
 
-// Initialize navigation menu toggle
-if (document.readyState === "loading") {
-  document.addEventListener("DOMContentLoaded", initNavToggle);
-} else {
+// Initialize interactivity on DOM load
+function initApp() {
   initNavToggle();
+  initScrollTop();
+}
+
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", initApp);
+} else {
+  initApp();
 }
