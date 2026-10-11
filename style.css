@@ -7,8 +7,13 @@
 :root {
   --primary-color: #2200ff;
   --secondary-color: #e9d5ff;
+  --accent-color: #7600bc;
   --background-color: #fcfcfc;
+  --surface-color: #ffffff;
   --text-color: #1f2937;
+  --text-muted: #4b5563;
+  --shadow-color: rgba(118, 0, 188, 0.15);
+  --border-color: #e5e7eb;
 }
 
 html {
@@ -58,7 +63,7 @@ header {
 }
 
 #home {
-  background-color: #2200ff;
+  background-color: var(--primary-color);
   height: fit-content;
   width: 100%;
   padding: 0.5rem clamp(0.5rem, 2.5vw, 2rem);
@@ -76,7 +81,7 @@ header {
 }
 
 .profile_name {
-  color: #ffffff;
+  color: var(--surface-color);
   font-size: 30px;
   font-weight: bold;
   font-size: clamp(1.5rem, 2.5vw, 2rem);
@@ -130,7 +135,7 @@ header {
 }
 
 #home .profile_btn button {
-  background-color: #ffffff;
+  background-color: var(--surface-color);
   color: var(--primary-color);
   font-weight: bold;
   padding: 8px;
@@ -140,15 +145,15 @@ header {
 }
 
 #home .profile_btn button:hover {
-  background-color: #e9d5ff;
+  background-color: var(--secondary-color);
   color: var(--primary-color);
   font-weight: bolder;
-  box-shadow: 0 4px 12px rgba(118, 0, 188, 0.4);
+  box-shadow: 0 4px 12px var(--shadow-color);
 }
 
 .topmenu:focus-visible,
 #home .profile_btn button:focus-visible {
-  outline: 2px solid #ffffff;
+  outline: 2px solid var(--surface-color);
   outline-offset: 2px;
 }
 
@@ -157,7 +162,7 @@ header {
 h2 {
   text-align: center;
   font-size: 42px;
-  color: #7600bc;
+  color: var(--accent-color);
   margin: 40px 0 20px 60px;
   position: relative;
   float: left;
@@ -166,7 +171,7 @@ h2 {
 .introduction {
   text-align: center;
   font-size: 30px;
-  color: #7600bc;
+  color: var(--accent-color);
   float: left;
   margin-top: 30px;
   margin-bottom: 20px;
@@ -176,12 +181,11 @@ h2 {
 /* Layout Utilities */
 
 .container {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 40px 60px;
-  gap: 40px;
-  flex-wrap: wrap;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 60px 24px;
+  box-sizing: border-box;
 }
 
 .flex_center {
@@ -193,55 +197,248 @@ h2 {
 /* About Me */
 
 #about-me {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 50px;
   margin-top: 20px;
 }
 
+.profile_image_container {
+  flex: 1;
+  max-width: 480px;
+  min-width: 280px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.profile_image {
+  width: 100%;
+  max-width: 420px;
+  height: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 16px 28px rgba(118, 0, 188, 0.18));
+  transition:
+    transform 0.35s ease,
+    filter 0.35s ease;
+  display: block;
+}
+
+.profile_image:hover {
+  transform: translateY(-6px) scale(1.02);
+  filter: drop-shadow(0 22px 36px rgba(118, 0, 188, 0.28));
+}
+
+.about_content {
+  flex: 1.2;
+  min-width: 280px;
+  max-width: 620px;
+}
+
 #about-me h1 {
-  font-size: 50px;
-  color: #7600bc;
+  font-size: clamp(2rem, 3.5vw, 3rem);
+  color: var(--accent-color);
   margin-top: 0;
   display: flex;
   align-items: center;
   gap: 15px;
+  flex-wrap: wrap;
+  line-height: 1.2;
+}
+
+.wave_icon {
+  color: var(--primary-color);
+  font-size: 0.85em;
+  display: inline-block;
+  transform-origin: 70% 70%;
+  animation: waveAnimation 2s infinite ease-in-out;
+}
+
+@keyframes waveAnimation {
+  0% {
+    transform: rotate(0deg);
+  }
+  10% {
+    transform: rotate(14deg);
+  }
+  20% {
+    transform: rotate(-8deg);
+  }
+  30% {
+    transform: rotate(14deg);
+  }
+  40% {
+    transform: rotate(-4deg);
+  }
+  50% {
+    transform: rotate(10deg);
+  }
+  60% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
 }
 
 #about-me p {
-  font-size: 22px;
-  color: rgb(128, 128, 128);
-  line-height: 1.6;
-  max-width: 750px;
+  font-size: clamp(1rem, 1.5vw, 1.15rem);
+  color: var(--text-muted);
+  line-height: 1.7;
+  margin: 18px 0 24px 0;
 }
 
 .contact_info {
-  font-size: 15px;
-  font-weight: normal;
-  font-style: italic;
+  font-size: 16px;
+  font-weight: 500;
   display: flex;
   align-items: center;
-  margin-top: 6px;
-  color: #e9d5ff;
+  gap: 12px;
+  margin-top: 12px;
+  color: var(--text-color);
 }
 
-.contact_info img {
-  width: 25px;
-  height: 25px;
-  margin-right: 10px;
-  float: left;
+.contact_info i {
+  color: var(--primary-color);
+  font-size: 18px;
+  width: 22px;
+  text-align: center;
 }
 
-.profile_image {
-  width: 420px;
-  max-width: 100%;
-  height: auto;
-  border-radius: 16px;
-  box-shadow: 0 8px 24px rgba(118, 0, 188, 0.15);
+.contact_info a {
+  color: var(--text-color);
+  transition: color 0.2s ease;
+  word-break: break-all;
+}
+
+.contact_info a:hover {
+  color: var(--primary-color);
+  text-decoration: underline;
+}
+
+/* About Actions & GitHub Button */
+.about_actions {
+  margin-top: 24px;
+}
+
+.btn_github {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  background: linear-gradient(135deg, #181c24, #0f1218);
+  color: #ffffff;
+  padding: 12px 24px;
+  border-radius: 10px;
+  font-size: 16px;
+  font-weight: 600;
+  text-decoration: none;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(34, 0, 255, 0.15);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.btn_github::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.2),
+    transparent
+  );
+  transition: left 0.6s ease;
+}
+
+.btn_github:hover::before {
+  left: 100%;
+}
+
+.btn_github:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 24px rgba(34, 0, 255, 0.35), 0 4px 14px rgba(118, 0, 188, 0.3);
+  background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+  color: #ffffff;
+  border-color: transparent;
+}
+
+.btn_github i.fa-github {
+  font-size: 22px;
   transition: transform 0.3s ease;
-  vertical-align: middle;
-  margin: 5px;
 }
 
-.profile_image:hover {
-  transform: scale(1.02);
+.btn_github:hover i.fa-github {
+  transform: scale(1.15) rotate(-6deg);
+}
+
+.btn_github .external_icon {
+  font-size: 12px;
+  opacity: 0.75;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.btn_github:hover .external_icon {
+  transform: translate(2px, -2px);
+  opacity: 1;
+}
+
+.btn_github:focus-visible {
+  outline: 2px solid var(--primary-color);
+  outline-offset: 3px;
+}
+
+/* Responsive adjustments for About Me */
+@media (max-width: 900px) {
+  #about-me {
+    flex-direction: column;
+    gap: 36px;
+    padding: 30px 20px;
+    text-align: center;
+  }
+
+  #about-me h1 {
+    justify-content: center;
+  }
+
+  .profile_image_container {
+    max-width: 440px;
+    width: 100%;
+  }
+
+  .about_content {
+    max-width: 100%;
+  }
+
+  .contact_info {
+    justify-content: center;
+  }
+
+  .about_actions {
+    display: flex;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 480px) {
+  #about-me {
+    padding: 20px 12px;
+    gap: 24px;
+  }
+
+  .profile_image {
+    border-radius: 12px;
+  }
+
+  .contact_info {
+    flex-direction: column;
+    gap: 6px;
+  }
 }
 
 /* Skills */
@@ -545,13 +742,17 @@ textarea:focus {
     float: none;
   }
 
-  .container,
   .all_skills,
   .projects-container,
   .all_recommendations,
   #contact {
     padding: 20px;
     margin: 0;
+  }
+
+  .container {
+    padding: 60px 24px;
+    margin: 0 auto;
   }
 
   fieldset {
